@@ -1,12 +1,19 @@
-default:	forward.png backward.png
+export_package:
+	python setup.py install
 
-forward.png:	forward.pdf
-		convert -density 150 forward.pdf forward.png
+install_deps:
+	pip install -r requirements.txt
 
-backward.png:	backward.pdf
-		convert -density 150 backward.pdf backward.png
+perform_tests:		install_dependencies
+	make -C tests all
 
-html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
-	@echo
-	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+all:	install_dependencies create_documentation perform_tests
+
+info:
+	@echo Please, select between:
+	@echo "  \033[0;31mexport_package\033[0m (install the 'mcdwt' package in Disutils)"
+	@echo "  \033[0;31minstall_deps\033[0m (install Python dependencies)"
+	@echo "  \033[0;31mperform_tests\033[0m (run the test scripts)"
+
+default: info
+
